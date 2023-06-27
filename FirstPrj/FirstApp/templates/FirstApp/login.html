@@ -1,0 +1,17 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <p><input type="hidden" name="next" value="{{next}}"></p>
+        <p><input type="submit" value="login"></p>
+    </form>
+</body>
+</html>

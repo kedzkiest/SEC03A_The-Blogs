@@ -1,0 +1,20 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Home</h1>
+    {% csrf_token %}
+    <button onclick="location.href='login'">login</button>
+
+    <br>
+    <br>
+    <br>
+    <h3>Don't have an account? Then signup first.</h2>
+    {% csrf_token %}
+    <button onclick="location.href='signup'">signup</button>
+</body>
+</html>

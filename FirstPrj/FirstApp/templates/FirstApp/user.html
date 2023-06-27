@@ -1,0 +1,17 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Your information</title>
+</head>
+<body>
+    <h1>{{user.username}}</h1>
+    <p>Email: {{user.email}}</p>
+    <p>Account creation date: {{user.date_joined}}</p>
+
+    {% csrf_token %}
+    <button onclick="location.href='../logout'">logout</button>
+</body>
+
+</html>
