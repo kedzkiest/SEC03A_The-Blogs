@@ -3,11 +3,18 @@ from .forms import SignupForm, LoginForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from .models import Blog
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home_view(request):
-    return render(request, "FirstApp/home.html")
+    blogs = Blog.objects.all()
+    
+    params = {
+        "blogs": blogs,
+    }
+    
+    return render(request, "FirstApp/home.html", params)
 
 def signup_view(request):
     if request.method == 'POST':
