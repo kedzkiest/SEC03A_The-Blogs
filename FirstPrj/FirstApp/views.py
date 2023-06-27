@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home_view(request):
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.exclude(is_public=False)
     
     params = {
         "blogs": blogs,
