@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SignupForm, LoginForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
@@ -85,3 +85,11 @@ def other_view(request):
     }
     
     return render(request, "FirstApp/other.html", params)
+
+def blog_detail_view(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    
+    params = {
+        "blog": blog
+    }
+    return render(request, "FirstApp/blog_detail.html", params)
