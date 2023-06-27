@@ -70,8 +70,11 @@ def user_view(request):
     user = request.user
     if not user.is_authenticated: return HttpResponse("You are not logged in")
     
+    user_written_blogs = Blog.objects.filter(author=user)
+    
     params = {
-        "user": user
+        "user": user,
+        "blogs": user_written_blogs,
     }
     
     return render(request, "FirstApp/user.html", params)
