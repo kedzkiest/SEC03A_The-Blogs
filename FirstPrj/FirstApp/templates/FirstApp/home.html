@@ -21,7 +21,9 @@
     <br>
     <h3> Recent Posts</h3>
     {% for blog in blogs %}
-    <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>
+    <li>
+        <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>
+    </li>
     {% endfor %}
 </body>
 </html>
