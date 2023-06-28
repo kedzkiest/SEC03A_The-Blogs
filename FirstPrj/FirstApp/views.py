@@ -123,5 +123,17 @@ def blog_add_view(request):
     }
     
     return render(request, "FirstApp/blog_add.html", params)
-        
-        
+
+@login_required
+def blog_delete_view(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    
+    if request.method == "POST":
+        blog.delete()
+        return redirect("user")
+    
+    params = {
+        "blog": blog,
+    }
+    
+    return render(request, "FirstApp/blog_delete.html", params)

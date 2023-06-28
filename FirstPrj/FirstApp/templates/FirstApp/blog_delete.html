@@ -1,0 +1,34 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Blog delete</title>
+</head>
+<body>
+    {% block content %}
+    <p>Are you sure about deleting this blog?</p>
+
+    <form action="" method="POST">
+        <table>
+            <tr>
+                <th>Title</th>
+                <td>{{ blog.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ blog.content }}</td>
+            </tr>
+            <tr>
+                <th>Check to make this post public</th>
+                <td>{{ blog.is_public }}</td>
+            </tr>
+        </table>
+
+        <button type="submit">delete</button>
+        {% csrf_token %}
+    </form>
+    {% endblock %}
+</body>
+
+</html>

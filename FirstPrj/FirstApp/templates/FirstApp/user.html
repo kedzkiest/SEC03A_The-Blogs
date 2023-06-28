@@ -15,6 +15,7 @@
     {% if user.is_authenticated or blog.is_public %}
     <li>{% if not blog.is_public %}[draft] {% endif %}
         <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>
+        <a href="{% url 'blog_delete' blog.pk %}">delete</a>
     {% endif %}
     {% empty %}
     You don't have any posts yet.

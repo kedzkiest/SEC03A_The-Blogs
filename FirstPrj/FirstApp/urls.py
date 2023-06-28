@@ -11,6 +11,7 @@ urlpatterns = [
     path("user/", views.user_view, name="user"),
     path("other/", views.other_view, name="other"),
     
-    path("blog/detail/<int:pk>/", views.blog_detail_view, name="blog_detail"),
     path("blog/add/", views.blog_add_view, name="blog_add"),
+    path("blog/detail/<int:pk>/", views.blog_detail_view, name="blog_detail"),
+    path("blog/delete/<int:pk>/", views.blog_delete_view, name="blog_delete"),
 ]
