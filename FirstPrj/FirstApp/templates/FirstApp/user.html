@@ -21,6 +21,8 @@
     {% endfor %}
     </ul>
 
+    {% csrf_token %}
+    <button onclick="location.href='../blog/add'">create new post</button>
     <br>
     <br>
     <br>

@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Blog add</title>
+</head>
+<body>
+    {% block content %}
+    <form action="" method="POST">
+        <table>
+            <tr>
+                <th>Title</th>
+                <td>{{ form.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ form.content }}</td>
+            </tr>
+            <tr>
+                <th>Check to make this post public</th>
+                <td>{{ form.is_public }}</td>
+            </tr>
+        </table>
+
+        <button type="submit">Submit</button>
+        {% csrf_token %}
+    </form>
+    {% endblock %}
+</body>
+
+</html>

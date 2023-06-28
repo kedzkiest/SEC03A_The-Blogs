@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm, LoginForm
+from .forms import SignupForm, LoginForm, BlogCreateForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -20,7 +20,8 @@ def signup_view(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         
-        if not form.is_valid(): return HttpResponse("Invalid form") 
+        if not form.is_valid(): 
+            return HttpResponse("Invalid form") 
         
         form.save()
         
@@ -38,7 +39,9 @@ def login_view(request):
         form = LoginForm(request, data=request.POST)
         next = request.POST.get("next")
         
-        if not form.is_valid(): return HttpResponse("Invalid form")
+        if not form.is_valid(): 
+            return HttpResponse("Invalid form")
+        
         user = form.get_user()
         
         if not user: return HttpResponse("Invalid user")
@@ -68,7 +71,8 @@ def logout_view(request):
 @login_required
 def user_view(request):
     user = request.user
-    if not user.is_authenticated: return HttpResponse("You are not logged in")
+    if not user.is_authenticated: 
+        return HttpResponse("You are not logged in")
     
     user_written_blogs = Blog.objects.filter(author=user)
     
@@ -96,3 +100,28 @@ def blog_detail_view(request, pk):
         "blog": blog
     }
     return render(request, "FirstApp/blog_detail.html", params)
+
+@login_required
+def blog_add_view(request):
+    if request.method == "POST":
+        form = BlogCreateForm(request.POST)
+        
+        if not form.is_valid():
+            print(form.errors)
+            return HttpResponse("Invalid form")
+        
+        # Since "author" field is provided automatically (not in BlogCreateForm),
+        # I give "author" information as an argument when saving the form.
+        form.save(request.user)
+        return redirect("user")
+    
+    else:
+        form=BlogCreateForm()
+        
+    params = {
+        "form": form,
+    }
+    
+    return render(request, "FirstApp/blog_add.html", params)
+        
+        

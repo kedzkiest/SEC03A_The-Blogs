@@ -13,12 +13,14 @@ class Author(AbstractUser):
 
 class Blog(models.Model):
     author = models.ForeignKey(User,
-                               on_delete=models.CASCADE)
+                               on_delete=models.CASCADE,
+                               blank=True,
+                               null=True)
     title = models.CharField(max_length=50, default=None)
     content = models.TextField(default=None)
     date = models.DateField(auto_now_add=True)
     is_public = models.BooleanField(default=False)
-  
+        
     def __str__(self):
         return self.title
     
