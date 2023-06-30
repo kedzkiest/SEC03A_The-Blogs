@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 '''
@@ -12,10 +13,10 @@ class Author(AbstractUser):
 '''
 
 class Blog(models.Model):
-    author = models.ForeignKey(User,
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE,
                                blank=True,
-                               null=True)
+                               null=True,)
     title = models.CharField(max_length=50, default=None)
     content = models.TextField(default=None)
     created_at = models.DateTimeField(auto_now_add=True)

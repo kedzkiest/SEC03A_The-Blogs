@@ -104,18 +104,40 @@ def blog_detail_view(request, pk):
 def blog_add_view(request):
     if request.method == "POST":
         form = BlogCreateForm(request.POST)
-        
+
         if not form.is_valid():
             print(form.errors)
             return HttpResponse("Invalid form")
         
         # Since "author" field is provided automatically (not in BlogCreateForm),
         # I give "author" information as an argument when saving the form.
-        form.save(request.user)
+        form.save(author = request.user)
         return redirect("user")
     
     else:
         form=BlogCreateForm()
+        
+    params = {
+        "form": form,
+    }
+    
+    return render(request, "FirstApp/blog_add.html", params)
+
+@login_required
+def blog_update_view(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    form = BlogCreateForm(request.POST or None, instance=blog)
+    
+    if request.method == "POST":
+
+        if not form.is_valid():
+            print(form.errors)
+            return HttpResponse("Invalid form")
+        
+        # Since "author" field is provided automatically (not in BlogCreateForm),
+        # I give "author" information as an argument when saving the form.
+        form.save(author = request.user)
+        return redirect("user")
         
     params = {
         "form": form,

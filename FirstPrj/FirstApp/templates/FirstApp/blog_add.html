@@ -9,6 +9,8 @@
     {% block content %}
     <form action="" method="POST">
         <table>
+            {{ form.author.as_hidden }}
+            
             <tr>
                 <th>Title</th>
                 <td>{{ form.title }}</td>
