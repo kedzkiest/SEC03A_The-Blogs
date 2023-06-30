@@ -18,7 +18,7 @@ class Blog(models.Model):
                                null=True)
     title = models.CharField(max_length=50, default=None)
     content = models.TextField(default=None)
-    date = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=False)
         
     def __str__(self):

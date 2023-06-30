@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home_view(request):
-    blogs = Blog.objects.exclude(is_public=False)
+    blogs = Blog.objects.exclude(is_public=False).order_by("-created_at")
     
     params = {
         "blogs": blogs,
@@ -74,7 +74,7 @@ def user_view(request):
     if not user.is_authenticated: 
         return HttpResponse("You are not logged in")
     
-    user_written_blogs = Blog.objects.filter(author=user)
+    user_written_blogs = Blog.objects.filter(author=user).order_by("-created_at")
     
     params = {
         "user": user,
