@@ -18,15 +18,12 @@ class BlogCreateForm(forms.ModelForm):
         model = Blog
         fields = ["author", "title", "content", "is_public"]
         
-    def save(self, author, commit=False):
+    def save(self, author, commit=True):
         blog = super(BlogCreateForm, self).save(commit=False)
+        blog.author = author
         
-        # author information is provided automatically (not in the form)
-        Blog.objects.create(
-            author=author,
-            title=blog.title,
-            content=blog.content,
-            is_public=blog.is_public,
-        )
+        if commit:
+            blog.save()
+        return blog
         
         
