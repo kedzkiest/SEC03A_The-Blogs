@@ -83,9 +83,8 @@ def user_view(request):
     
     return render(request, "FirstApp/user.html", params)
 
-@login_required
 def other_view(request):
-    users = User.objects.exclude(username=request.user.username)
+    users = User.objects.exclude(username=request.user.username).exclude(is_superuser=True)
     
     params = {
         "users": users

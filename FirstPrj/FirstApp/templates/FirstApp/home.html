@@ -25,5 +25,11 @@
         <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>
     </li>
     {% endfor %}
+
+    <br>
+    <br>
+    <br>
+    {% csrf_token %}
+    <a href="{% url 'other' %}">See the list of authors</a>
 </body>
 </html>

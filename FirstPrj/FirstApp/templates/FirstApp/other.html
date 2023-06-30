@@ -3,14 +3,19 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Other users' info</title>
+    <title>The list of authors</title>
 </head>
 <body>
-    <h1>Other users' info</h1>
+    <h1>The list of authors</h1>
     {% for user in users %}
     <h2>{{ user.username }}</h2>
     <p>Email:{{ user.email }}</p>
     {% endfor %}
+
+    <br>
+    <br>
+    <br>
+    <button onclick="location.href='../home'">back</button>
 </body>
 
 </html>
