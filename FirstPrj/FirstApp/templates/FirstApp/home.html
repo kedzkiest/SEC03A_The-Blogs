@@ -7,14 +7,19 @@
 </head>
 <body>
     <h1>Home</h1>
-    Press login button to post a blog.
-    {% csrf_token %}
-    <button onclick="location.href='login'">login</button>
 
-    <br>
-    Don't have an account? Then signup first.
-    {% csrf_token %}
-    <button onclick="location.href='signup'">signup</button>
+    {% if user.is_authenticated %}
+        <button onclick="location.href='user'">user page</button>
+    {% else %}
+        Press login button to post a blog.
+        {% csrf_token %}
+        <button onclick="location.href='login'">login</button>
+
+        <br>
+        Don't have an account? Then signup first.
+        {% csrf_token %}
+        <button onclick="location.href='signup'">signup</button>
+    {% endif %}
 
     <br>
     <br>
