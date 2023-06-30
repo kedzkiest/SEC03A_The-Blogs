@@ -25,6 +25,11 @@
     <br>
     <br>
     <h3> Recent Posts</h3>
+    <form action="" method="POST">
+        {{ specify_author_form }}
+        <button type="submit">Search</button>
+        {% csrf_token %}
+    </form>
     {% for blog in blogs %}
     <li>
         <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>

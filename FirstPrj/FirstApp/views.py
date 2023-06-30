@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm, LoginForm, BlogCreateForm
+from .forms import SignupForm, LoginForm, BlogCreateForm, SpecifyAuthorForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -8,16 +8,27 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home_view(request):
+    if request.method == "POST":
+        specify_author_form = SpecifyAuthorForm(request.POST)
+    else:
+        specify_author_form = SpecifyAuthorForm()
+        
     blogs = Blog.objects.exclude(is_public=False).order_by("-created_at")
     
+    # The author user to focus
+    specified_author = request.POST.get("specified_author")
+    if specified_author:
+        blogs = blogs.filter(author=specified_author)
+    
     params = {
+        "specify_author_form": specify_author_form,
         "blogs": blogs,
     }
     
     return render(request, "FirstApp/home.html", params)
 
 def signup_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = SignupForm(request.POST)
         
         if not form.is_valid(): 

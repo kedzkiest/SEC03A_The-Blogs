@@ -25,5 +25,10 @@ class BlogCreateForm(forms.ModelForm):
         if commit:
             blog.save()
         return blog
-        
-        
+    
+class SpecifyAuthorForm(forms.Form):
+    specified_author = forms.ModelChoiceField(
+        queryset=User.objects.all().exclude(is_superuser=True),
+        widget=forms.widgets.Select,
+        required=False,
+        )
