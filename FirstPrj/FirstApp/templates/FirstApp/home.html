@@ -30,6 +30,12 @@
         <button type="submit">Search</button>
         {% csrf_token %}
     </form>
+    <form action="" method="POST">
+        {{ specify_date_form }}
+        <button type="submit">Search</button>
+        {% csrf_token %}
+    </form>
+    <br>
     {% for blog in blogs %}
     <li>
         <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>

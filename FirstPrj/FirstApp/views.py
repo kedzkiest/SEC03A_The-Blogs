@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm, LoginForm, BlogCreateForm, SpecifyAuthorForm
+from .forms import SignupForm, LoginForm, BlogCreateForm, SpecifyAuthorForm, SpecifyDateForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -10,18 +10,26 @@ from django.contrib.auth.decorators import login_required
 def home_view(request):
     if request.method == "POST":
         specify_author_form = SpecifyAuthorForm(request.POST)
+        specify_date_form = SpecifyDateForm(request.POST)
     else:
         specify_author_form = SpecifyAuthorForm()
+        specify_date_form = SpecifyDateForm()
         
     blogs = Blog.objects.exclude(is_public=False).order_by("-created_at")
     
-    # The author user to focus
+    # The author to focus
     specified_author = request.POST.get("specified_author")
     if specified_author:
         blogs = blogs.filter(author=specified_author)
+        
+    # The date to focus
+    specified_date = request.POST.get("specified_date")
+    if specified_date:
+        blogs = blogs.filter(created_at__date=specified_date)
     
     params = {
         "specify_author_form": specify_author_form,
+        "specify_date_form": specify_date_form,
         "blogs": blogs,
     }
     
