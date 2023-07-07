@@ -5,7 +5,20 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .models import Blog
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+def paginate_queryset(request, queryset, count):
+    paginator = Paginator(queryset, count)
+    page = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+    
+    return page_obj
+    
 # Create your views here.
 def home_view(request):
     if request.method == "POST":
@@ -27,10 +40,14 @@ def home_view(request):
     if specified_date:
         blogs = blogs.filter(created_at__date=specified_date)
     
+    post_num_per_page = 5
+    paginated_blogs = paginate_queryset(request, blogs, post_num_per_page)
+    
     params = {
         "specify_author_form": specify_author_form,
         "specify_date_form": specify_date_form,
-        "blogs": blogs,
+        "blogs": paginated_blogs.object_list,
+        "page_obj": paginated_blogs,
     }
     
     return render(request, "FirstApp/home.html", params)
