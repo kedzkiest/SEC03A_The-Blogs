@@ -26,12 +26,7 @@
     <br>
     <h3> Recent Posts</h3>
     <form action="" method="POST">
-        {{ specify_author_form }}
-        <button type="submit">Search</button>
-        {% csrf_token %}
-    </form>
-    <form action="" method="POST">
-        {{ specify_date_form }}
+        {{ blog_condition_form}}
         <button type="submit">Search</button>
         {% csrf_token %}
     </form>
@@ -45,7 +40,7 @@
     {% endfor %}
 
     <br>
-    
+
     {% if page_obj.has_previous %}
     <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
     {% endif %}

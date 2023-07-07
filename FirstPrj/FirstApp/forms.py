@@ -26,14 +26,13 @@ class BlogCreateForm(forms.ModelForm):
             blog.save()
         return blog
     
-class SpecifyAuthorForm(forms.Form):
+class ConditionForm(forms.Form):
     specified_author = forms.ModelChoiceField(
         queryset=User.objects.all().exclude(is_superuser=True),
         widget=forms.widgets.Select,
         required=False,
         )
     
-class SpecifyDateForm(forms.Form):
     specified_date = forms.DateField(
         widget = forms.DateInput(attrs={"type": "date"}),
         required=False,

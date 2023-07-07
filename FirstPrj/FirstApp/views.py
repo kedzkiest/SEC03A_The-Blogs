@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm, LoginForm, BlogCreateForm, SpecifyAuthorForm, SpecifyDateForm
+from .forms import SignupForm, LoginForm, BlogCreateForm, ConditionForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -22,21 +22,20 @@ def paginate_queryset(request, queryset, count):
 # Create your views here.
 def home_view(request):
     if request.method == "POST":
-        specify_author_form = SpecifyAuthorForm(request.POST)
-        specify_date_form = SpecifyDateForm(request.POST)
+        blog_condition_form = ConditionForm(request.POST)
+        request.session["form_data"] = request.POST
     else:
-        specify_author_form = SpecifyAuthorForm()
-        specify_date_form = SpecifyDateForm()
-        
+        blog_condition_form = ConditionForm(request.session.get("form_data"))
+
     blogs = Blog.objects.exclude(is_public=False).order_by("-created_at")
     
     # The author to focus
-    specified_author = request.POST.get("specified_author")
+    specified_author = request.session["form_data"].get("specified_author")
     if specified_author:
         blogs = blogs.filter(author=specified_author)
         
     # The date to focus
-    specified_date = request.POST.get("specified_date")
+    specified_date = request.session["form_data"].get("specified_date")
     if specified_date:
         blogs = blogs.filter(created_at__date=specified_date)
     
@@ -44,8 +43,7 @@ def home_view(request):
     paginated_blogs = paginate_queryset(request, blogs, post_num_per_page)
     
     params = {
-        "specify_author_form": specify_author_form,
-        "specify_date_form": specify_date_form,
+        "blog_condition_form": blog_condition_form,
         "blogs": paginated_blogs.object_list,
         "page_obj": paginated_blogs,
     }
