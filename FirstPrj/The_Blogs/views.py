@@ -56,10 +56,9 @@ def signup_view(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         
-        if not form.is_valid(): 
-            return HttpResponse("Invalid form") 
-        
-        form.save()
+        if form.is_valid(): 
+            form.save()
+            return redirect(to="/" + UserDefinedConstValue.APPNAME + "/login/")
         
     else:
         form = SignupForm()
@@ -75,13 +74,11 @@ def login_view(request):
         form = LoginForm(request, data=request.POST)
         next = request.POST.get("next")
         
-        if not form.is_valid(): 
-            return HttpResponse("Invalid form")
-        
-        user = form.get_user()
-        
-        if not user: return HttpResponse("Invalid user")
-        login(request, user)
+        if form.is_valid(): 
+            user = form.get_user()
+            
+            if user:
+                login(request, user)
         
         if next == "None":
             return redirect(to="/" + UserDefinedConstValue.APPNAME + "/user/")
@@ -141,14 +138,11 @@ def blog_add_view(request):
     if request.method == "POST":
         form = BlogCreateForm(request.POST)
 
-        if not form.is_valid():
-            print(form.errors)
-            return HttpResponse("Invalid form")
-        
-        # Since "author" field is provided automatically (not in BlogCreateForm),
-        # I give "author" information as an argument when saving the form.
-        form.save(author = request.user)
-        return redirect("user")
+        if form.is_valid():
+            # Since "author" field is a foreign key in Blog model, it should be provided automatically (not in BlogCreateForm),
+            # I give "author" information as an argument when saving the form.
+            form.save(author = request.user)
+            return redirect("user")
     
     else:
         form=BlogCreateForm()
@@ -166,14 +160,11 @@ def blog_update_view(request, pk):
     
     if request.method == "POST":
 
-        if not form.is_valid():
-            print(form.errors)
-            return HttpResponse("Invalid form")
-        
-        # Since "author" field is provided automatically (not in BlogCreateForm),
-        # I give "author" information as an argument when saving the form.
-        form.save(author = request.user)
-        return redirect("user")
+        if form.is_valid():
+            # Since "author" field is a foreign key in Blog model, it should be provided automatically (not in BlogCreateForm),
+            # I give "author" information as an argument when saving the form.
+            form.save(author = request.user)
+            return redirect("user")
         
     params = {
         "form": form,

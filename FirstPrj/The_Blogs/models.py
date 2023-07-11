@@ -17,7 +17,7 @@ class Blog(models.Model):
                                on_delete=models.CASCADE,
                                blank=True,
                                null=True,)
-    title = models.CharField(max_length=50, default=None)
+    title = models.CharField(max_length=80, default=None)
     content = models.TextField(default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     is_public = models.BooleanField(default=False)
