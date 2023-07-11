@@ -1,0 +1,1 @@
+APPNAME = "The_Blogs"

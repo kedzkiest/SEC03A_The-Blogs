@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from . import UserDefinedConstValue
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "FirstApp",
+    UserDefinedConstValue.APPNAME,
 ]
 
 MIDDLEWARE = [
@@ -118,4 +119,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Redirect URL for people not logged in
-LOGIN_URL = "/FirstApp/login/"
+LOGIN_URL = UserDefinedConstValue.APPNAME + "/login/"

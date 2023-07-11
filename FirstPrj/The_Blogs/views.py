@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from .models import Blog
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import FirstPrj.UserDefinedConstValue as UserDefinedConstValue
 
 def paginate_queryset(request, queryset, count):
     paginator = Paginator(queryset, count)
@@ -29,15 +30,16 @@ def home_view(request):
 
     blogs = Blog.objects.exclude(is_public=False).order_by("-created_at")
     
-    # The author to focus
-    specified_author = request.session["form_data"].get("specified_author")
-    if specified_author:
-        blogs = blogs.filter(author=specified_author)
+    if "form_data" in request.session:
+        # The author to focus
+        specified_author = request.session["form_data"].get("specified_author")
+        if specified_author:
+            blogs = blogs.filter(author=specified_author)
         
-    # The date to focus
-    specified_date = request.session["form_data"].get("specified_date")
-    if specified_date:
-        blogs = blogs.filter(created_at__date=specified_date)
+        # The date to focus
+        specified_date = request.session["form_data"].get("specified_date")
+        if specified_date:
+            blogs = blogs.filter(created_at__date=specified_date)
     
     post_num_per_page = 5
     paginated_blogs = paginate_queryset(request, blogs, post_num_per_page)
@@ -48,7 +50,7 @@ def home_view(request):
         "page_obj": paginated_blogs,
     }
     
-    return render(request, "FirstApp/home.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/home.html", params)
 
 def signup_view(request):
     if request.method == "POST":
@@ -66,7 +68,7 @@ def signup_view(request):
         "form": form
     }
     
-    return render(request, "FirstApp/signup.html", param)
+    return render(request, UserDefinedConstValue.APPNAME + "/signup.html", param)
 
 def login_view(request):
     if request.method == "POST":
@@ -82,7 +84,7 @@ def login_view(request):
         login(request, user)
         
         if next == "None":
-            return redirect(to="/FirstApp/user/")
+            return redirect(to="/" + UserDefinedConstValue.APPNAME + "/user/")
         else:
             return redirect(to=next)
         
@@ -95,12 +97,12 @@ def login_view(request):
         "next": next,
     }
     
-    return render(request, "FirstApp/login.html", param)
+    return render(request, UserDefinedConstValue.APPNAME + "/login.html", param)
 
 def logout_view(request):
     logout(request)
     
-    return render(request, "FirstApp/logout.html")
+    return render(request, UserDefinedConstValue.APPNAME + "/logout.html")
 
 @login_required
 def user_view(request):
@@ -115,7 +117,7 @@ def user_view(request):
         "blogs": user_written_blogs,
     }
     
-    return render(request, "FirstApp/user.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/user.html", params)
 
 def other_view(request):
     users = User.objects.exclude(is_superuser=True)
@@ -124,7 +126,7 @@ def other_view(request):
         "users": users
     }
     
-    return render(request, "FirstApp/other.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/other.html", params)
 
 def blog_detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
@@ -132,7 +134,7 @@ def blog_detail_view(request, pk):
     params = {
         "blog": blog
     }
-    return render(request, "FirstApp/blog_detail.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/blog_detail.html", params)
 
 @login_required
 def blog_add_view(request):
@@ -155,7 +157,7 @@ def blog_add_view(request):
         "form": form,
     }
     
-    return render(request, "FirstApp/blog_add.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/blog_add.html", params)
 
 @login_required
 def blog_update_view(request, pk):
@@ -177,7 +179,7 @@ def blog_update_view(request, pk):
         "form": form,
     }
     
-    return render(request, "FirstApp/blog_add.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/blog_add.html", params)
 
 @login_required
 def blog_delete_view(request, pk):
@@ -191,4 +193,4 @@ def blog_delete_view(request, pk):
         "blog": blog,
     }
     
-    return render(request, "FirstApp/blog_delete.html", params)
+    return render(request, UserDefinedConstValue.APPNAME + "/blog_delete.html", params)
