@@ -119,4 +119,4 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Redirect URL for people not logged in
-LOGIN_URL = UserDefinedConstValue.APPNAME + "/login/"
+LOGIN_URL = "login"
