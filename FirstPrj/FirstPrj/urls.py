@@ -20,5 +20,6 @@ from . import UserDefinedConstValue
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include(UserDefinedConstValue.APPNAME + ".urls")),
     path(UserDefinedConstValue.APPNAME + "/", include(UserDefinedConstValue.APPNAME + ".urls"))
 ]

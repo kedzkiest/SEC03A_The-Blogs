@@ -20,6 +20,9 @@ def paginate_queryset(request, queryset, count):
         page_obj = paginator.page(paginator.num_pages)
     
     return page_obj
+
+def redirect_to_home_view(request):
+    return redirect(to="/" + UserDefinedConstValue.APPNAME + "/home")
     
 # Create your views here.
 def home_view(request):
