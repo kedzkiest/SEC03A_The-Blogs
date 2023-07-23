@@ -7,6 +7,7 @@ from .models import Blog
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import FirstPrj.UserDefinedConstValue as UserDefinedConstValue
+from turbo.shortcuts import render_frame_string
 
 def paginate_queryset(request, queryset, count):
     paginator = Paginator(queryset, count)
@@ -185,3 +186,9 @@ def blog_delete_view(request, pk):
     }
     
     return render(request, UserDefinedConstValue.APPNAME + "/blog_delete.html", params)
+
+def test(request):
+    return render(request, UserDefinedConstValue.APPNAME + "/test.html")
+
+def test_update(request):
+    return render_frame_string("CLICKED!").update(id="myframe").response
