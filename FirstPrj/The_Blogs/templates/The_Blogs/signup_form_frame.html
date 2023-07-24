@@ -1,0 +1,10 @@
+<turbo-frame id="signup_form_frame">
+	Please signup
+	<p id=login_check_result>&nbsp;</p>
+	<p>
+		<form action=check_login method="POST">
+		{% csrf_token %}
+		{{ signup_form.as_p }}
+		<input type="submit" value="Signup" formaction="do_signupTest">
+	</form>
+</turbo-frame>

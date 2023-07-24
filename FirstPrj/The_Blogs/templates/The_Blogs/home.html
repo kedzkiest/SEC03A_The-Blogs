@@ -1,12 +1,25 @@
 {% load static %}
+{% load turbo_streams %}
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Home</title>
+
+    {% include "turbo/head.html" %}
+	{% turbo_subscribe 'The_Blogs:AppStream' %}
 </head>
 <body>
     <h1>Home</h1>
+
+    {% include "The_Blogs/signup_frame.html" %}
+
+    <section>
+		<turbo-frame id="main_box">
+
+		</turbo-frame>
+	</section>
 
     {% if user.is_authenticated %}
         <button onclick="location.href='user'">user page</button>

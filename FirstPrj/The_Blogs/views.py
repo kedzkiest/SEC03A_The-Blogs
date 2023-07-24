@@ -7,7 +7,8 @@ from .models import Blog
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import FirstPrj.UserDefinedConstValue as UserDefinedConstValue
-from turbo.shortcuts import render_frame_string
+
+MAX_POST_PER_PAGE = 5
 
 def paginate_queryset(request, queryset, count):
     paginator = Paginator(queryset, count)
@@ -26,6 +27,8 @@ def redirect_to_home_view(request):
     
 # Create your views here.
 def home_view(request):
+    user = request.user
+    
     if request.method == "POST":
         blog_condition_form = ConditionForm(request.POST)
         request.session["form_data"] = request.POST
@@ -45,10 +48,10 @@ def home_view(request):
         if specified_date:
             blogs = blogs.filter(created_at__date=specified_date)
     
-    post_num_per_page = 5
-    paginated_blogs = paginate_queryset(request, blogs, post_num_per_page)
+    paginated_blogs = paginate_queryset(request, blogs, MAX_POST_PER_PAGE)
     
     params = {
+        "user_login": user.is_authenticated,
         "blog_condition_form": blog_condition_form,
         "blogs": paginated_blogs.object_list,
         "page_obj": paginated_blogs,
@@ -190,8 +193,36 @@ def blog_delete_view(request, pk):
     
     return render(request, UserDefinedConstValue.APPNAME + "/blog_delete.html", params)
 
-def test(request):
-    return render(request, UserDefinedConstValue.APPNAME + "/test.html")
+from turbo.shortcuts import render_frame, render_frame_string
+from The_Blogs.streams import AppStream
 
-def test_update(request):
-    return render_frame_string("CLICKED!").update(id="myframe").response
+def signupTest(request):
+    r = render_frame(
+        request,
+        UserDefinedConstValue.APPNAME + "/signup_form_frame.html",
+        {"signup_form": SignupForm()},
+    ).update(id="main_box")
+
+    AppStream().stream(r)
+
+    return HttpResponse("")
+
+def do_signupTest(request):
+    form = SignupForm(request.POST)
+    
+    signup_result = ""
+    
+    if form.is_valid(): 
+        form.save()
+        signup_result = "Signup successful!"
+    else:
+        signup_result = str(form.errors)
+
+
+    AppStream().update(text=signup_result, id="main_box")
+
+    return (
+        render_frame(request, "register_form_frame.html", {"register_form": signup_result})
+        .update(id="signup_form_frame")
+        .response
+    )
