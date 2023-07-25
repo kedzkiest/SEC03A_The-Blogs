@@ -45,9 +45,19 @@
 
     <form action="" method="POST">
         {{ blog_condition_form }}
-        <button type="submit">Search</button>
+        <button type="submit" onclick="MyReload()">Search</button>
         {% csrf_token %}
     </form>
+
+    <script>
+        function MyReload(){
+            setTimeout(Reload, 50);
+        }
+
+        function Reload(){
+            window.location.reload(true);
+        }
+    </script>
 
     <br>
 

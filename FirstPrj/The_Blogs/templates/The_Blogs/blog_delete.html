@@ -32,7 +32,18 @@
     <br>
     <br>
     <br>
-    <button onclick="location.href='../../../user'">cancel</button>
+    <button type="button" onclick="MyReload()">cancel</button>
+
+    <script>
+        function MyReload(){
+            history.back();
+            setTimeout(Reload, 50);
+        }
+
+        function Reload(){
+            window.location.reload(true);
+        }
+    </script>
     {% endblock %}
 </body>
 

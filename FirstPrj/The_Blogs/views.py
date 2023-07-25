@@ -27,8 +27,6 @@ def redirect_to_home_view(request):
     
 # Create your views here.
 def home_view(request):
-    user = request.user
-    
     if request.method == "POST":
         blog_condition_form = ConditionForm(request.POST)
         request.session["form_data"] = request.POST
@@ -51,7 +49,6 @@ def home_view(request):
     paginated_blogs = paginate_queryset(request, blogs, MAX_POST_PER_PAGE)
     
     params = {
-        "user_login": user.is_authenticated,
         "blog_condition_form": blog_condition_form,
         "blogs": paginated_blogs.object_list,
         "page_obj": paginated_blogs,

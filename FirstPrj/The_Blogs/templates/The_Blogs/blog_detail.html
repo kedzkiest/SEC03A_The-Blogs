@@ -15,7 +15,18 @@
     <br>
     <br>
     <br>
-    <button type="button" onclick="history.back()">back</button>
+    <button type="button" onclick="MyReload()">back</button>
+
+    <script>
+        function MyReload(){
+            history.back();
+            setTimeout(Reload, 50);
+        }
+
+        function Reload(){
+            window.location.reload(true);
+        }
+    </script>
 </body>
 
 </html>
