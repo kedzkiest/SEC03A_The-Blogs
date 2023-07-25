@@ -13,6 +13,7 @@
 <body>
     <h1>Home</h1>
 
+    {% include "The_Blogs/login_logout_frame.html" %}
     {% include "The_Blogs/signup_frame.html" %}
 
     <section>
@@ -21,6 +22,7 @@
 		</turbo-frame>
 	</section>
 
+    <!--
     {% if user.is_authenticated %}
         <button onclick="location.href='user'">user page</button>
     {% else %}
@@ -34,12 +36,15 @@
         <button onclick="location.href='signup'">signup</button>
     {% endif %}
 
+    -->
+
     <br>
     <br>
     <br>
     <h3> Recent Posts</h3>
+
     <form action="" method="POST">
-        {{ blog_condition_form}}
+        {{ blog_condition_form }}
         <button type="submit">Search</button>
         {% csrf_token %}
     </form>

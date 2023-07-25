@@ -226,3 +226,35 @@ def do_signupTest(request):
         .update(id="signup_form_frame")
         .response
     )
+
+def do_login(request):
+    result = ""
+    user = request.user
+    
+    if request.method == "POST":
+        form = LoginForm(request, data = request.POST)
+        
+        if form.is_valid():
+            user = form.get_user()
+        
+            if user:
+                login(request, user)
+                result = "Login Successful!"
+            
+    else:
+        form = LoginForm()
+
+
+    return (
+        render_frame(
+            request,
+            UserDefinedConstValue.APPNAME + "/login_logout_frame.html",
+            {"login_form": form, "user_login": user.is_authenticated, "user": user, "login_result": result},
+        )
+        .replace(id="login_logout_frame")
+        .response
+    )
+    
+def do_logout(request):
+    logout(request)
+    return home_view(request)

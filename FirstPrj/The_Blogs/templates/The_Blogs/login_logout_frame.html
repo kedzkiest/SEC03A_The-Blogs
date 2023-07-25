@@ -1,0 +1,15 @@
+<turbo-frame id="login_logout_frame">
+	{% if not user_login %}
+	<form action=do_login method="POST">
+		{% csrf_token %}
+		{{ login_form.as_p }}
+			<tr>
+			<td><input type="submit" value="Login"></td>
+			<td>{{ login_result }}</td>
+		    </tr>
+	</form>
+{% else %}
+	Hi, {{ user }}! <a href=do_logout>Logout</a>
+	<button onclick="location.href='user'">user page</button>
+{% endif %}
+</turbo-frame>
