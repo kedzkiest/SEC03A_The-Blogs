@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import FirstPrj.UserDefinedConstValue as UserDefinedConstValue
 
 MAX_POST_PER_PAGE = 5
+NO_ACCESS_TO_POST_WARNING = "You do not have an access to this post."
 
 def paginate_queryset(request, queryset, count):
     paginator = Paginator(queryset, count)
@@ -131,15 +132,14 @@ def other_view(request):
     }
     
     return render(request, UserDefinedConstValue.APPNAME + "/other.html", params)
-
+    
 def blog_detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
     
-    # Only the author A can view A's draft
+    # Only the author A can view A's drafts.
     if not blog.is_public:
-        print("str(request.user) == str(blog.author): ", str(request.user) == str(blog.author))
         if str(request.user) != str(blog.author):
-            return HttpResponse("You do not have an access to this post.")
+            return HttpResponse(NO_ACCESS_TO_POST_WARNING)
     
     params = {
         "blog": blog
@@ -169,7 +169,13 @@ def blog_add_view(request):
 @login_required
 def blog_update_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
+    
+    # Only the author A can update A's posts.
+    if str(request.user) != str(blog.author):
+        return HttpResponse(NO_ACCESS_TO_POST_WARNING)
+        
     form = BlogCreateForm(request.POST or None, instance=blog)
+    
     
     if request.method == "POST":
 
@@ -188,6 +194,10 @@ def blog_update_view(request, pk):
 @login_required
 def blog_delete_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
+    
+    # Only the author A can delete A's posts.
+    if str(request.user) != str(blog.author):
+        return HttpResponse(NO_ACCESS_TO_POST_WARNING)
     
     if request.method == "POST":
         blog.delete()
