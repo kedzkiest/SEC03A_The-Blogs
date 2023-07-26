@@ -135,6 +135,12 @@ def other_view(request):
 def blog_detail_view(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
     
+    # Only the author A can view A's draft
+    if not blog.is_public:
+        print("str(request.user) == str(blog.author): ", str(request.user) == str(blog.author))
+        if str(request.user) != str(blog.author):
+            return HttpResponse("You do not have an access to this post.")
+    
     params = {
         "blog": blog
     }
