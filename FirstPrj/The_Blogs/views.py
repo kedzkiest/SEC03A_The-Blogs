@@ -27,6 +27,7 @@ def redirect_to_home_view(request):
     
 # Create your views here.
 def home_view(request):
+    print(request.user.is_authenticated)
     if request.method == "POST":
         blog_condition_form = ConditionForm(request.POST)
         request.session["form_data"] = request.POST
@@ -56,6 +57,7 @@ def home_view(request):
     
     return render(request, UserDefinedConstValue.APPNAME + "/home.html", params)
 
+''' Implementation without Turbo
 def signup_view(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
@@ -104,6 +106,7 @@ def logout_view(request):
     logout(request)
     
     return render(request, UserDefinedConstValue.APPNAME + "/logout.html")
+'''
 
 @login_required
 def user_view(request):
@@ -193,7 +196,7 @@ def blog_delete_view(request, pk):
 from turbo.shortcuts import render_frame, render_frame_string
 from The_Blogs.streams import AppStream
 
-def signupTest(request):
+def signup(request):
     r = render_frame(
         request,
         UserDefinedConstValue.APPNAME + "/signup_form_frame.html",
@@ -204,7 +207,7 @@ def signupTest(request):
 
     return HttpResponse("")
 
-def do_signupTest(request):
+def do_signup(request):
     form = SignupForm(request.POST)
     
     signup_result = ""

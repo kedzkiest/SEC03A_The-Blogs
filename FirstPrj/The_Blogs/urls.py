@@ -5,15 +5,16 @@ urlpatterns = [
     path("", views.redirect_to_home_view),
     path("home", views.home_view, name="home"),
     
-    path("signupTest/", views.signupTest),
-    path("do_signupTest", views.do_signupTest),
+    path("signup/", views.signup),
+    path("do_signup", views.do_signup),
     
     path("do_login", views.do_login),
     path("do_logout", views.do_logout),
     
-    path("signup/", views.signup_view, name="signup"),
-    path("login/", views.login_view, name="login"),
-    path("logout/", views.logout_view, name="logout"),
+    # Implementation without Turbo
+    #path("signup/", views.signup_view, name="signup"),
+    #path("login/", views.login_view, name="login"),
+    #path("logout/", views.logout_view, name="logout"),
     
     path("user/", views.user_view, name="user"),
     path("other/", views.other_view, name="other"),

@@ -8,9 +8,9 @@
 			<td>{{ login_result }}</td>
 		    </tr>
 	</form>
-{% else %}
-	Hi, {{ user }}! <a href=do_logout>Logout</a>
-	<br>
-	<button onclick="location.href='user'">user page</button>
-{% endif %}
+	{% else %}
+		Hi, {{ user }}! <a href=do_logout>Logout</a>
+		<br>
+		<button onclick="location.href='user'">user page</button>
+	{% endif %}
 </turbo-frame>
