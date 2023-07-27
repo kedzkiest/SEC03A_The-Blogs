@@ -1,5 +1,5 @@
 # SEC03A_The-Blogs
-Simple blog application with django.
+Simple blog application with django.  
 Created by: m5271039 Kaede TAKAHASHI
 
 ## The link to the specification document
