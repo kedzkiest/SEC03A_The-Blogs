@@ -15,7 +15,13 @@
 </head>
 <body>
     <header>
-        <h1>Home</h1>
+        <div id="logo">
+            <img src={% static "/logo.png" %} height="40%", width="40%">
+        </div>
+
+        <br>
+
+        <!-- <h1>Home</h1> -->
 
         {% include "The_Blogs/login_logout_frame.html" %}
         {% include "The_Blogs/signup_frame.html" %}
@@ -44,9 +50,6 @@
     </header>
 
     <section>
-        <br>
-        <br>
-        <br>
         <h3> Recent Posts</h3>
 
         <form action="" method="POST">
