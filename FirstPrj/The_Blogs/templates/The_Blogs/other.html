@@ -4,18 +4,25 @@
 <head>
     <meta charset="utf-8">
     <title>The list of authors</title>
+
+    <link rel="stylesheet" href={% static "/style.css" %}>
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
 </head>
 <body>
-    <h1>The list of authors</h1>
-    {% for user in users %}
-    <h2>{{ user.username }}</h2>
-    <p>Email:{{ user.email }}</p>
-    {% endfor %}
+    <header>
+        <h1>The list of authors</h1>
+    </header>
 
-    <br>
-    <br>
-    <br>
-    <button onclick="location.href='../home'">home</button>
+    <section>
+        {% for user in users %}
+        <h2>{{ user.username }}</h2>
+        <p>Email:{{ user.email }}</p>
+        {% endfor %}
+    </section>
+
+    <footer>
+        <button onclick="location.href='../home'">home</button>        
+    </footer>
 </body>
 
 </html>

@@ -4,35 +4,45 @@
 <head>
     <meta charset="utf-8">
     <title>Blog add</title>
+
+    <link rel="stylesheet" href={% static "/style.css" %}>
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
 </head>
 <body>
-    {% block content %}
-    <form action="" method="POST">
-        <table>
-            {{ form.author.as_hidden }}
-            
-            <tr>
-                <th>Title</th>
-                <td>{{ form.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ form.content }}</td>
-            </tr>
-            <tr>
-                <th>Check to make this post public</th>
-                <td>{{ form.is_public }}</td>
-            </tr>
-        </table>
+    <header>
+        <h1>Let's add/modify a post!</h1>
+    </header>
 
-        <button type="submit">Submit</button>
-        {% csrf_token %}
-    </form>
+    <section>
+        {% block content %}
+        <form action="" method="POST">
+            <table>
+                {{ form.author.as_hidden }}
+                
+                <tr>
+                    <th>Title</th>
+                    <td>{{ form.title }}</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>{{ form.content }}</td>
+                </tr>
+                <tr>
+                    <th>Check to make this post public</th>
+                    <td>{{ form.is_public }}</td>
+                </tr>
+            </table>
 
-    <br>
-    <br>
-    <br>
-    <button type="button" onclick="MyReload()">cancel</button>
+            <br>
+            <button type="submit">Submit</button>
+            {% csrf_token %}
+        </form>
+
+    </section>
+
+    <footer>
+        <button type="button" onclick="MyReload()">cancel</button>
+    </footer>
 
     <script>
         function MyReload(){

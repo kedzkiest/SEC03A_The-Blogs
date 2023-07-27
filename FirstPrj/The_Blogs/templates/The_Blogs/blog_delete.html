@@ -4,35 +4,59 @@
 <head>
     <meta charset="utf-8">
     <title>Blog delete</title>
+
+    <link rel="stylesheet" href={% static "/style.css" %}>
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
 </head>
 <body>
-    {% block content %}
-    <p>Are you sure about deleting this blog?</p>
+    <header>
+        <h1>Let's delete a post!</h1>
+    </header>
 
-    <form action="" method="POST">
-        <table>
-            <tr>
-                <th>Title</th>
-                <td>{{ blog.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ blog.content }}</td>
-            </tr>
-            <tr>
-                <th>Check to make this post public</th>
-                <td>{{ blog.is_public }}</td>
-            </tr>
-        </table>
+    <section>
+        {% block content %}
+        <p style="color:Tomato">Are you sure about deleting this post?</p>
+        <br>
 
-        <button type="submit">delete</button>
-        {% csrf_token %}
-    </form>
+        <form action="" method="POST">
+            <h2> Title </h2>
+            <h3 style="color: gray"> - {{ blog.title }} </h3>
+            <br>
 
-    <br>
-    <br>
-    <br>
-    <button type="button" onclick="MyReload()">cancel</button>
+            <h2> Content </h2>
+            <h3 style="color: gray"> - {{ blog.content }} </h3>
+            <br>
+
+            <h2> Public post </h2>
+            <h3 style="color: gray"> - {{ blog.is_public }} </h3>
+
+            <!--
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ blog.title }}</td>
+                </tr>
+                <tr>
+                    <th>Content</th>
+                    <td>{{ blog.content }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Public post</th>
+                    <td>{{ blog.is_public }}</td>
+                </tr>
+            </table>
+        -->
+
+            <br>
+            <button type="submit">delete</button>
+            {% csrf_token %}
+        </form>
+    </section>
+
+    <footer>
+        <button type="button" onclick="MyReload()">cancel</button>
+    </footer>
 
     <script>
         function MyReload(){
@@ -45,6 +69,7 @@
         }
     </script>
     {% endblock %}
+
 </body>
 
 </html>

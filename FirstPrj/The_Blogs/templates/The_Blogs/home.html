@@ -7,82 +7,91 @@
     <meta charset="utf-8">
     <title>Home</title>
 
+    <link rel="stylesheet" href={% static "/style.css" %}>
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}"/>
+
     {% include "turbo/head.html" %}
 	{% turbo_subscribe 'The_Blogs:AppStream' %}
 </head>
 <body>
-    <h1>Home</h1>
+    <header>
+        <h1>Home</h1>
 
-    {% include "The_Blogs/login_logout_frame.html" %}
-    {% include "The_Blogs/signup_frame.html" %}
+        {% include "The_Blogs/login_logout_frame.html" %}
+        {% include "The_Blogs/signup_frame.html" %}
+
+        <section>
+            <turbo-frame id="main_box">
+
+            </turbo-frame>
+        </section>
+
+        <!--
+        {% if user.is_authenticated %}
+            <button onclick="location.href='user'">user page</button>
+        {% else %}
+            Press login button to post a blog.
+            {% csrf_token %}
+            <button onclick="location.href='login'">login</button>
+
+            <br>
+            Don't have an account? Then signup first.
+            {% csrf_token %}
+            <button onclick="location.href='signup'">signup</button>
+        {% endif %}
+
+        -->
+    </header>
 
     <section>
-		<turbo-frame id="main_box">
+        <br>
+        <br>
+        <br>
+        <h3> Recent Posts</h3>
 
-		</turbo-frame>
-	</section>
+        <form action="" method="POST">
+            {{ blog_condition_form }}
+            <button type="submit" onclick="MyReload()">Search</button>
+            {% csrf_token %}
+        </form>
 
-    <!--
-    {% if user.is_authenticated %}
-        <button onclick="location.href='user'">user page</button>
-    {% else %}
-        Press login button to post a blog.
-        {% csrf_token %}
-        <button onclick="location.href='login'">login</button>
+        <script>
+            function MyReload(){
+                setTimeout(Reload, 50);
+            }
+
+            function Reload(){
+                window.location.reload(true);
+            }
+        </script>
 
         <br>
-        Don't have an account? Then signup first.
+
+        {% for blog in blogs %}
+        <li class="SpacedList">
+            <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>
+        </li>
+        {% endfor %}
+
+        <br>
+
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+        {% endif %}
+
+        {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </section>
+
+    <footer>
+        <br>
+        <br>
+        <br>
         {% csrf_token %}
-        <button onclick="location.href='signup'">signup</button>
-    {% endif %}
-
-    -->
-
-    <br>
-    <br>
-    <br>
-    <h3> Recent Posts</h3>
-
-    <form action="" method="POST">
-        {{ blog_condition_form }}
-        <button type="submit" onclick="MyReload()">Search</button>
-        {% csrf_token %}
-    </form>
-
-    <script>
-        function MyReload(){
-            setTimeout(Reload, 50);
-        }
-
-        function Reload(){
-            window.location.reload(true);
-        }
-    </script>
-
-    <br>
-
-    {% for blog in blogs %}
-    <li>
-        <a href="{% url 'blog_detail' blog.pk %}">{{ blog.title }}</a>
-    </li>
-    {% endfor %}
-
-    <br>
-
-    {% if page_obj.has_previous %}
-    <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
-    {% endif %}
-
-    {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}
-
-    {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">Next</a>
-    {% endif %}
-
-    <br>
-    <br>
-    <br>
-    {% csrf_token %}
-    <a href="{% url 'other' %}">See the list of authors</a>
+        <a href="{% url 'other' %}">See the list of authors</a>
+    </footer>
 </body>
 </html>

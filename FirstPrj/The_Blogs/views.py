@@ -28,7 +28,6 @@ def redirect_to_home_view(request):
     
 # Create your views here.
 def home_view(request):
-    print(request.user.is_authenticated)
     if request.method == "POST":
         blog_condition_form = ConditionForm(request.POST)
         request.session["form_data"] = request.POST
