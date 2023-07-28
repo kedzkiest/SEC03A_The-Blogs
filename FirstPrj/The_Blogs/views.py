@@ -115,10 +115,12 @@ def user_view(request):
         return HttpResponse("You are not logged in")
     
     user_written_blogs = Blog.objects.filter(author=user).order_by("-created_at")
+    paginated_user_written_blogs= paginate_queryset(request, user_written_blogs, MAX_POST_PER_PAGE)
     
     params = {
         "user": user,
-        "blogs": user_written_blogs,
+        "blogs": paginated_user_written_blogs.object_list,
+        "page_obj": paginated_user_written_blogs,
     }
     
     return render(request, UserDefinedConstValue.APPNAME + "/user.html", params)

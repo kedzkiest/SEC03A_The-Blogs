@@ -30,6 +30,19 @@
         {% empty %}
         You don't have any posts yet.
         {% endfor %}
+
+        <br>
+        <br>
+
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
+        {% endif %}
+
+        {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
         </ul>
 
         {% csrf_token %}
@@ -41,7 +54,6 @@
         {% csrf_token %}
         <button onclick="location.href='../home'">home</button>
     </footer>
-
 </body>
 
 </html>
